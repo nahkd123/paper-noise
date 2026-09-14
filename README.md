@@ -2,9 +2,14 @@
 
 OpenTabletDriver paper sketching noise plugin for your immersive drawing experience™.
 
+In theory, it should supports Windows (x64 only), macOS and Linux (x64 and ARM64), though I only tested the plugin on
+Arch Linux.
+
 ## Installation
 
-TODO
+Find the ZIP archive of the plugin in [Releases page](https://github.com/nahkd123/paper-noise/releases) and drag it to
+Plugin Manager window. Alternatively, you can just extract the content of that ZIP archive into `Plugins/PaperNoise`
+folder.
 
 ## Filters
 
