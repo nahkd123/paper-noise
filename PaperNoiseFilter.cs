@@ -52,7 +52,7 @@ public class PaperNoiseFilter : IPositionedPipelineElement<IDeviceReport>, IDisp
 
     public void Consume(IDeviceReport report)
     {
-        if (tabletSpec.HasValue && report is ITabletReport tabletReport)
+        if (tabletSpec.HasValue && report is ITabletReport tabletReport && tabletReport.Pressure > 0)
         {
             var currPosition = tabletReport.Position * tabletSpec.Value.PhysicalSize / tabletSpec.Value.LogicalSize;
             var deltaTime = stopwatch.Restart();
@@ -62,9 +62,9 @@ public class PaperNoiseFilter : IPositionedPipelineElement<IDeviceReport>, IDisp
             paper.Pressure = pressure;
             lastPosition = currPosition;
         }
-        else if (report is OutOfRangeReport)
+        else if (report is OutOfRangeReport || (report is ITabletReport tabletReport1 && tabletReport1.Pressure == 0))
         {
-            stopwatch.Reset();
+            stopwatch.Restart();
             lastPosition = null;
             paper.Velocity = 0;
             paper.Pressure = 0;
