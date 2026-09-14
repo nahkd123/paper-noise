@@ -1,0 +1,29 @@
+name: .NET CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration=Release
+#    - name: Test
+#      run: dotnet test --no-build --verbosity normal
+    - name: Package plugin
+      working-directory: bin/Release/net8.0/
+      run: zip -r PaperNoise.zip runtimes/ nahkd123.PaperNoise.dll PortAudioSharp.dll
+    - uses: actions/upload-artifact@v4
+      with:
+        path: bin/Release/net8.0/PaperNoise.zip
